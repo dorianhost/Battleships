@@ -8,8 +8,6 @@ import my.battleships.ships.*;
 import java.util.*;
 
 public class ComputerPlayer extends Player {
-    private String name;
-    private final GameField gameField;
     private Random rand;
     private Map<GameField.Coordinates, FiringResult> shootBase;
     private boolean wanglingMode;
@@ -17,7 +15,6 @@ public class ComputerPlayer extends Player {
     public ComputerPlayer(String name) {
         super(name);
         this.name = name;
-        this.gameField = new GameField();
         rand = new Random(System.currentTimeMillis());
         shootBase = new LinkedHashMap<>();
         wanglingMode = false;

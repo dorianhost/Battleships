@@ -29,18 +29,20 @@ public class Battleships {
         computerPlayer.setupTheShips();
 
         FiringResult currentPlayersFiringResult = null;
-        do{
-            currentPlayersFiringResult = humanPlayer.makeHit(computerPlayer.getGameField());
-            gameOverCheck();
+        while (true) {
+            do{
+                currentPlayersFiringResult = humanPlayer.makeHit(computerPlayer.getGameField());
+                gameOverCheck();
+            }
+            while (currentPlayersFiringResult != FiringResult.MISS);
+
+
+            do{
+                ConsoleHelper.pause();
+                currentPlayersFiringResult = computerPlayer.makeHit(humanPlayer.getGameField());
+                gameOverCheck();
+            } while(currentPlayersFiringResult != FiringResult.MISS);
         }
-        while (currentPlayersFiringResult != FiringResult.MISS);
-
-
-        do{
-            ConsoleHelper.pause();
-            currentPlayersFiringResult = computerPlayer.makeHit(humanPlayer.getGameField());
-            gameOverCheck();
-        } while(currentPlayersFiringResult != FiringResult.MISS);
     }
 
     public static void main(String[] args) {
