@@ -12,8 +12,8 @@ import java.util.List;
 import java.util.Observable;
 
 public class GameField extends Observable{
-    private List<AbstractShip> ships;
-    private Cell[][] field;
+    private final List<AbstractShip> ships;
+    private final Cell[][] field;
     private boolean atLeastOneShipAlive;
 
     public GameField() {
@@ -22,16 +22,14 @@ public class GameField extends Observable{
         for (int i = 0; i < 10 ; i++)
             for (int j = 0; j < 10 ; j++)
                 field [i][j] = new Cell();
-
         atLeastOneShipAlive = true;
     }
 
     public void addShip(AbstractShip  shipForAdd) throws ShipSetupException {
-        if (checkBorders(shipForAdd) && checkShipConfluence(shipForAdd) && checkDimensionBetweenTwoShips(shipForAdd)) {
+        if (checkShipConfluence(shipForAdd) && checkDimensionBetweenTwoShips(shipForAdd)){
             ships.add(shipForAdd);
-            for (Deck currentDeck : shipForAdd.getShipDecks()) {
+            for (Deck currentDeck : shipForAdd.getShipDecks())
                 field[currentDeck.getCoordinates().x][currentDeck.getCoordinates().y] = currentDeck;
-            }
         }
         else throw new ShipSetupException();
     }
@@ -47,23 +45,6 @@ public class GameField extends Observable{
         return true;
     }
 
-
-    private boolean checkBorders(AbstractShip checkedShip){
-        if (checkCoordinatesForOutOfBorders(checkedShip.getShipDecks().getFirst().getCoordinates().x,
-                    checkedShip.getShipDecks().getFirst().getCoordinates().y) ||
-                checkCoordinatesForOutOfBorders(checkedShip.getShipDecks().getLast().getCoordinates().x,
-                    checkedShip.getShipDecks().getLast().getCoordinates().y)) return true;
-        else return false;
-    }
-
-    public static boolean checkCoordinatesForOutOfBorders(Coordinates coordinates){
-        return checkCoordinatesForOutOfBorders(coordinates.x , coordinates.y);
-    }
-
-    public static boolean checkCoordinatesForOutOfBorders(int X, int Y){
-        if(X < 0 || X > 9 || Y < 0 || X > 9) return false;
-        else return true;
-    }
 
     public boolean isAtLeastOneShipAlive() {
         return atLeastOneShipAlive;
@@ -95,11 +76,11 @@ public class GameField extends Observable{
         }
     }
 
-    public Cell getFieldSquare(Coordinates coordinates) {
-        return getFieldSquare(coordinates.x, coordinates.y);
+    public Cell getFieldCell(Coordinates coordinates) {
+        return getFieldCell(coordinates.x, coordinates.y);
     }
 
-    public Cell getFieldSquare(int x, int y) {
+    public Cell getFieldCell(int x, int y) {
         return field[y][x];
     }
 
@@ -112,7 +93,7 @@ public class GameField extends Observable{
     }
 
     public FiringResult hit(int x, int y) throws WrongCoordinatesException {
-        boolean isHitWasSuccessful = checkCoordinatesForOutOfBorders(x, y) & field[x][y].hit();
+        boolean isHitWasSuccessful = field[x][y].hit();
         if (isHitWasSuccessful){
             checkShipsLife();
             return checkFireResult(x, y);
@@ -125,11 +106,11 @@ public class GameField extends Observable{
     }
 
     public void cheats (){
-        for(AbstractShip ship : ships){
-            for(Deck deck : ship.getShipDecks()){
+        for(AbstractShip ship : ships)
+            for(Deck deck : ship.getShipDecks())
                 if (deck.isAlive())deck.setHide(!deck.isHide());
-            }
-        }
+
+
     }
 
     public boolean isRightMineSacrifice (Coordinates coordinates) throws WrongCoordinatesException {
@@ -139,31 +120,41 @@ public class GameField extends Observable{
         else throw new WrongCoordinatesException();
     }
 
-
     public static class Coordinates{
         private int x;
         private int y;
 
-        public Coordinates(int x, int y) {
+        public Coordinates(int x, int y){
             this.x = x;
             this.y = y;
         }
 
         //it need for setup new ships with horizontal and vertical direction
-        public Coordinates moveX(int dx){
-            return new Coordinates(x + dx, y);
+        public Coordinates moveX(int dx) throws ShipSetupException {
+            int newX = x + dx;
+            if(newX < 0 || newX > 9 ) throw new ShipSetupException();
+            return new Coordinates(newX, y);
         }
 
-        public Coordinates moveY(int dy){
-            return new Coordinates(x, y + dy);
+        public Coordinates moveY(int dy) throws ShipSetupException {
+            int newY = y + dy;
+            if(newY < 0 || newY > 9) throw new ShipSetupException();
+            return new Coordinates(x, newY);
         }
-
 
         public static Coordinates coordinatesParser(String stringCoordinates) throws WrongCoordinatesException {
             if (!stringCoordinates.matches(("(^[a-j]\\d$)|(^[a-j]\\d[v]$)"))) throw new WrongCoordinatesException();
             int x = (ConsoleHelper.letters.indexOf(stringCoordinates.charAt(0))-1)/2;
             int y = Character.getNumericValue(stringCoordinates.charAt(1));
             return new Coordinates(x, y);
+        }
+
+        public int getX() {
+            return x;
+        }
+
+        public int getY() {
+            return y;
         }
 
         @Override

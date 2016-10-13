@@ -1,6 +1,8 @@
 package my.battleships.ships;
 
 
+import my.battleships.Exeptions.ShipSetupException;
+import my.battleships.Exeptions.WrongCoordinatesException;
 import my.battleships.GameField.Deck;
 import my.battleships.GameField.GameField;
 
@@ -12,7 +14,7 @@ public abstract class AbstractShip {
     private final List<Deck> ShipDecks;
     protected boolean alive;
 
-    AbstractShip(ShipTypes type, GameField.Coordinates coordinates, boolean isHorizontal, boolean hidden){
+    AbstractShip(ShipTypes type, GameField.Coordinates coordinates, boolean isHorizontal, boolean hidden) throws ShipSetupException {
         Type = type;
         ShipDecks = new LinkedList<Deck>();
         for (int i = 0; i < type.getDecks(); i++) {

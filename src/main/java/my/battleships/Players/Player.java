@@ -42,8 +42,10 @@ public abstract class Player extends Observable{
 
     protected abstract GameField.Coordinates chooseSacrificeAfterMineExplosion ();
 
-    protected FiringResult mineStruck(GameField gameField) throws WrongCoordinatesException {
-        return makeHit(gameField, chooseSacrificeAfterMineExplosion());
+    GameField.Coordinates mineStruck(GameField gameField) throws WrongCoordinatesException {
+        GameField.Coordinates coordinates = chooseSacrificeAfterMineExplosion();
+        makeHit(gameField, coordinates);
+        return coordinates;
     }
 
 

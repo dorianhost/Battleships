@@ -23,8 +23,7 @@ public class HumanPlayer extends Player {
         for (ShipTypes currentType : ShipTypes.values()) {
             int shipsCountBeforeAdding = gameField.shipsCount();
             while (gameField.shipsCount() < shipsCountBeforeAdding + currentType.getCount()){
-                ConsoleHelper.writeMessageNL("\n" + currentType.getName()+ " will be at... \n" +
-                        "(\"d3\" - on \"d3\" will be head, default direction is horizontal, \"d3v\" for vertical)");
+                ConsoleHelper.messageForShipsSetup(currentType);
                 try {
                     String buffer = ConsoleHelper.readString();
                     GameField.Coordinates coordinates = GameField.Coordinates.coordinatesParser(buffer);
@@ -43,9 +42,11 @@ public class HumanPlayer extends Player {
                     }
                     reprintGameWithMessage(null);
                 } catch (ShipSetupException e) {
-                    reprintGameWithMessage("Can't setup near and ON existing ships. Please choose another place...");
+                    reprintGameWithMessage("you can't setup near or ON existing ships or shipis out of border." +
+                            "\nPlease, choose another place...");
                 }catch (WrongCoordinatesException e){
-                    reprintGameWithMessage("Coordinates' format is wrong! Must be \"a8\", \"c7v\", etc.");
+                    reprintGameWithMessage("coordinates' format is wrong! \n" +
+                            "You must use [a-j] letters, and format must be \"a8\", \"c7v\", etc.");
                 }
             }
         }
@@ -58,12 +59,18 @@ public class HumanPlayer extends Player {
             try {
                 ConsoleHelper.writeMessageNL("\nLet's SHOOT now!! Your target:");
                 String buffer = ConsoleHelper.readString();
+                if(buffer.equals("cheats")) {
+                    enemysGameField.cheats();
+                    reprintGameWithMessage(null);
+                    continue;
+                }
                 GameField.Coordinates coordinates = GameField.Coordinates.coordinatesParser(buffer);
                 result = makeHit(enemysGameField, coordinates);
-                reprintGameWithMessage(buffer + " - " + result);
+                reprintGameWithMessage(coordinates + " - " + result);
                 if(result == FiringResult.MINE) {
-                    result = mineStruck(gameField);
-                    reprintGameWithMessage(buffer + " - " + result);
+                    coordinates = mineStruck(gameField);
+                    result = FiringResult.MINE_SACRIFICE;
+                    reprintGameWithMessage(coordinates + " - " + result);
                 }
             } catch (WrongCoordinatesException e) {
                 reprintGameWithMessage("wrong coordinates. Try another..");
@@ -78,7 +85,7 @@ public class HumanPlayer extends Player {
         GameField.Coordinates coordinates = null;
         do{
             try {
-                ConsoleHelper.writeMessageNL("Choose ship or ship's deck witch struck the mine:");
+                ConsoleHelper.writeMessageNL("Choose ship or ship's deck which struck the mine:");
                 coordinates = GameField.Coordinates.coordinatesParser(ConsoleHelper.readString());
                 isRightCoordinates = gameField.isRightMineSacrifice(coordinates);
             } catch (WrongCoordinatesException e) {

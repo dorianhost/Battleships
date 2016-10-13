@@ -6,10 +6,10 @@ import my.battleships.ships.AbstractShip;
 import my.battleships.ships.ShipTypes;
 
 public class Deck extends Cell {
-    private AbstractShip parentShip;
+    private final AbstractShip parentShip;
     private CellForm form;
     private boolean hide;
-    private GameField.Coordinates coordinates;
+    private final GameField.Coordinates coordinates;
 
     public Deck(AbstractShip parentShip, ShipTypes type, GameField.Coordinates coordinates, boolean hide) {
         this.parentShip = parentShip;

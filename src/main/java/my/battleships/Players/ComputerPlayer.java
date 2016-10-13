@@ -9,15 +9,16 @@ import java.util.*;
 
 public class ComputerPlayer extends Player {
     private Random rand;
-    private Map<GameField.Coordinates, FiringResult> shootBase;
-    private boolean wanglingMode;
+    private final Map<GameField.Coordinates, FiringResult> shootBase;
+    private boolean finishingMode;
+    private int x =0, y =0;
 
     public ComputerPlayer(String name) {
         super(name);
         this.name = name;
         rand = new Random(System.currentTimeMillis());
         shootBase = new LinkedHashMap<>();
-        wanglingMode = false;
+        finishingMode = false;
     }
 
 
@@ -60,71 +61,35 @@ public class ComputerPlayer extends Player {
     }
 
     @Override
-    public FiringResult makeHit(GameField gameField) {
+    public FiringResult makeHit(GameField enemysGameField) {
         FiringResult firingResult = null;
         do{
             try {
                 GameField.Coordinates coordinates = chooseCoordinatesForHit();
-                firingResult = makeHit(gameField, coordinates);
+                firingResult = makeHit(enemysGameField, coordinates);
                 reprintGameWithMessage(coordinates + " - " + firingResult);
                 shootBase.put(coordinates, firingResult);
                 if (firingResult == FiringResult.MINE) {
-                    firingResult = mineStruck(gameField);
+                    coordinates = mineStruck(gameField);
+                    firingResult = FiringResult.MINE_SACRIFICE;
                     reprintGameWithMessage(coordinates + " - " + firingResult);
+                    continue;
                 }
-                if(firingResult == FiringResult.HURT) wanglingMode = true;
-                else if (firingResult == FiringResult.DROWNED) wanglingMode = false;
+                if(firingResult == FiringResult.HURT) finishingMode = true;
+                else if (firingResult == FiringResult.DROWNED) finishingMode = false;
             }catch (WrongCoordinatesException ignored){}
         }while (firingResult == null);
         return firingResult;
     }
 
-    private GameField.Coordinates chooseCoordinatesForHit(){
+    private GameField.Coordinates chooseCoordinatesForHit() {
         return new GameField.Coordinates(rand.nextInt(10), rand.nextInt(10));
-//        if(!wanglingMode)return new GameField.Coordinates(rand.nextInt(10), rand.nextInt(10));
+//        if(!finishingMode)return new GameField.Coordinates(rand.nextInt(10), rand.nextInt(10));
 //        else{
-//            int [] coordinates = new int[2];
-//            final List<int[]> keyList = new ArrayList<>(shootBase.keySet());
+//            GameField.Coordinates coordinates = null;
+//            List<GameField.Coordinates> keyList = new ArrayList<>(shootBase.keySet());
 //            for (int i = keyList.size()-1 ; i>=0; i--) {
-//                if(shootBase.get(keyList.get(i)) == FiringResult.HURT){
-//                    int hurtedX = keyList.get(i)[0];
-//                    int hurtedY = keyList.get(i)[1];
-//                    List<int[]> possibleShoots = new ArrayList<>();
 //
-//                    if (GameField.checkCoordinatesForOutOfBorders(hurtedX-1, hurtedY))
-////                            && !shootBase.containsKey((new int[]{hurtedX-1, hurtedY})))
-//                        possibleShoots.add((new int[]{hurtedX-1, hurtedY}));
-//
-//                    if (GameField.checkCoordinatesForOutOfBorders(hurtedX+1, hurtedY))
-////                           &&  !shootBase.containsKey((new int[]{hurtedX+1, hurtedY})))
-//                        possibleShoots.add((new int[]{hurtedX+1, hurtedY}));
-//
-//                    if (GameField.checkCoordinatesForOutOfBorders(hurtedX, hurtedY-1))
-////                            && !shootBase.containsKey((new int[]{hurtedX, hurtedY-1})))
-//                        possibleShoots.add((new int[]{hurtedX, hurtedY-1}));
-//
-//                    if (GameField.checkCoordinatesForOutOfBorders(hurtedX, hurtedY+1))
-////                            && !shootBase.containsKey((new int[]{hurtedX, hurtedY+1})))
-//                        possibleShoots.add((new int[]{hurtedX, hurtedY+1}));
-//
-//
-//                    try {
-//                        for (int j = 0; j < possibleShoots.size() ; j++) {
-//                            if(shootBase.get(possibleShoots.get(j)) != null
-//                                    && shootBase.get(possibleShoots.get(j)) == FiringResult.HURT)
-//                                return possibleShoots.get(j%2+1);
-//                        }
-//                    } catch (IndexOutOfBoundsException e) {
-//                        continue;
-//                    }
-//
-//                    int random = 0;
-//                    do{
-//                        random = rand.nextInt(77543)%possibleShoots.size();
-//                    } while (shootBase.containsKey(possibleShoots.get(random)));
-//                    coordinates = possibleShoots.get(random);
-//                    break;
-//                }
 //            }
 //            return coordinates;
 //        }

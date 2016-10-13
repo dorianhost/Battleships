@@ -17,15 +17,17 @@ public class Battleships {
     }
 
     private void run() {
-        ConsoleHelper.printGame(humanPlayer.getGameField(), computerPlayer.getGameField());
+        console.printGame();
         humanPlayer.addObserver(console);
+        computerPlayer.addObserver(console);
 
-        if(ConsoleHelper.askPlayerAboutHisOunShipInstallation())
+        if(ConsoleHelper.askPlayerAboutHisOwnShipInstallation())
             humanPlayer.setupTheShips();
+
         else
             computerPlayer.setupTheShips(humanPlayer.getGameField());
 
-        computerPlayer.addObserver(console);
+
         computerPlayer.setupTheShips();
 
         FiringResult currentPlayersFiringResult = null;
@@ -33,15 +35,17 @@ public class Battleships {
             do{
                 currentPlayersFiringResult = humanPlayer.makeHit(computerPlayer.getGameField());
                 gameOverCheck();
-            }
-            while (currentPlayersFiringResult != FiringResult.MISS);
+            } //if we hit the mark, we have one more turn
+            while (currentPlayersFiringResult == FiringResult.HURT
+                    || currentPlayersFiringResult == FiringResult.DROWNED);
 
 
             do{
                 ConsoleHelper.pause();
                 currentPlayersFiringResult = computerPlayer.makeHit(humanPlayer.getGameField());
                 gameOverCheck();
-            } while(currentPlayersFiringResult != FiringResult.MISS);
+            } while(currentPlayersFiringResult == FiringResult.HURT
+                    || currentPlayersFiringResult == FiringResult.DROWNED);
         }
     }
 
