@@ -2,6 +2,7 @@ package my.battleships.Players;
 
 import my.battleships.Exeptions.WrongCoordinatesException;
 import my.battleships.GameField.GameField;
+import my.battleships.enums.FiringResult;
 
 import java.util.Observable;
 

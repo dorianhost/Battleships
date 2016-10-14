@@ -2,12 +2,13 @@ package my.battleships.GameField;
 
 
 import my.battleships.ConsoleHelper;
+import my.battleships.enums.CellState;
 import my.battleships.ships.AbstractShip;
 import my.battleships.ships.ShipTypes;
 
 public class Deck extends Cell {
     private final AbstractShip parentShip;
-    private CellForm form;
+    private CellState state;
     private boolean hide;
     private final GameField.Coordinates coordinates;
 
@@ -17,8 +18,8 @@ public class Deck extends Cell {
             case SINGLE_DECKER:
             case TWO_DECKER:
             case THREE_DECKER:
-            case FOUR_DECKER: form = CellForm.DECK; break;
-            case MINE: form = CellForm.MINE; break;
+            case FOUR_DECKER: state = CellState.DECK; break;
+            case MINE: state = CellState.MINE; break;
             default: throw new UnsupportedOperationException();
         }
         this.coordinates = coordinates;
@@ -44,14 +45,14 @@ public class Deck extends Cell {
     @Override
     public void print() {
         if (hide) super.print();
-        else ConsoleHelper.writeMessage(form);
+        else ConsoleHelper.writeWhiteMessage(state);
     }
 
     @Override
     public boolean hit(){
         if(alive){
             if (hide) hide = false;
-            form = CellForm.DAMAGED;
+            state = CellState.DAMAGED;
             alive = false;
             getParentShip().hit();
             return true;

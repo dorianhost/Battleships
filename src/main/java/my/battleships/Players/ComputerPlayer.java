@@ -3,6 +3,7 @@ package my.battleships.Players;
 import my.battleships.Exeptions.WrongCoordinatesException;
 import my.battleships.GameField.Deck;
 import my.battleships.GameField.GameField;
+import my.battleships.enums.FiringResult;
 import my.battleships.ships.*;
 
 import java.util.*;
@@ -83,16 +84,15 @@ public class ComputerPlayer extends Player {
     }
 
     private GameField.Coordinates chooseCoordinatesForHit() {
-        return new GameField.Coordinates(rand.nextInt(10), rand.nextInt(10));
-//        if(!finishingMode)return new GameField.Coordinates(rand.nextInt(10), rand.nextInt(10));
-//        else{
-//            GameField.Coordinates coordinates = null;
-//            List<GameField.Coordinates> keyList = new ArrayList<>(shootBase.keySet());
-//            for (int i = keyList.size()-1 ; i>=0; i--) {
-//
-//            }
-//            return coordinates;
-//        }
+        if(!finishingMode)return new GameField.Coordinates(rand.nextInt(10), rand.nextInt(10));
+        else{
+            GameField.Coordinates coordinates = null;
+            List<GameField.Coordinates> keyList = new ArrayList<>(shootBase.keySet());
+            for (int i = keyList.size()-1 ; i>=0; i--) {
+
+            }
+            return coordinates;
+        }
     }
 
     protected GameField.Coordinates chooseSacrificeAfterMineExplosion() {

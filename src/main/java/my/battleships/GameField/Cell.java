@@ -1,18 +1,15 @@
 package my.battleships.GameField;
 
 import my.battleships.ConsoleHelper;
+import my.battleships.enums.CellState;
 
 public class Cell {
-    private CellForm form;
+    private CellState form;
     protected boolean alive;
 
     public Cell() {
-        form = CellForm.EMPTY;
+        form = CellState.EMPTY;
         alive = true;
-    }
-
-    public CellForm getForm() {
-        return form;
     }
 
     public boolean isAlive() {
@@ -20,12 +17,12 @@ public class Cell {
     }
 
     public void print(){
-        ConsoleHelper.writeMessage(form);
+        ConsoleHelper.writeWhiteMessage(form);
     }
 
     public boolean hit(){
         if(alive) {
-            form = CellForm.MISSED;
+            form = CellState.MISSED;
             alive = false;
             return true;
         }

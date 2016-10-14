@@ -3,6 +3,7 @@ package my.battleships.Players;
 import my.battleships.ConsoleHelper;
 import my.battleships.Exeptions.*;
 import my.battleships.GameField.GameField;
+import my.battleships.enums.FiringResult;
 import my.battleships.ships.*;
 
 

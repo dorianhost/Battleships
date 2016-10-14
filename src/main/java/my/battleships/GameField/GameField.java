@@ -3,7 +3,7 @@ package my.battleships.GameField;
 import my.battleships.ConsoleHelper;
 import my.battleships.Exeptions.ShipSetupException;
 import my.battleships.Exeptions.WrongCoordinatesException;
-import my.battleships.Players.FiringResult;
+import my.battleships.enums.FiringResult;
 import my.battleships.ships.*;
 
 
@@ -34,8 +34,7 @@ public class GameField extends Observable{
         else throw new ShipSetupException();
     }
 
-    //must be checked every deck in every ship witch setup in Game field with every deck of new ship
-    //by the formula Euclidean distance
+
     private boolean checkDimensionBetweenTwoShips(AbstractShip checkedShip){
         for(AbstractShip currentShip : ships)
             for(Deck currentDeck : currentShip.getShipDecks())
@@ -129,7 +128,7 @@ public class GameField extends Observable{
             this.y = y;
         }
 
-        //it need for setup new ships with horizontal and vertical direction
+        //this needs for setup new ships with horizontal and vertical direction
         public Coordinates moveX(int dx) throws ShipSetupException {
             int newX = x + dx;
             if(newX < 0 || newX > 9 ) throw new ShipSetupException();

@@ -1,4 +1,4 @@
-package my.battleships.Players;
+package my.battleships2.enums;
 
 public enum FiringResult {
     MISS("MISS"),
@@ -8,6 +8,7 @@ public enum FiringResult {
     MINE_SACRIFICE(" exploded on the enemy's mine... RIP, dear :(");
 
     String status;
+
 
     FiringResult(String status) {
         this.status = status;

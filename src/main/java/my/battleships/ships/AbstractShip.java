@@ -2,7 +2,6 @@ package my.battleships.ships;
 
 
 import my.battleships.Exeptions.ShipSetupException;
-import my.battleships.Exeptions.WrongCoordinatesException;
 import my.battleships.GameField.Deck;
 import my.battleships.GameField.GameField;
 

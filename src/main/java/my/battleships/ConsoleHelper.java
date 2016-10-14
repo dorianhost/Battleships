@@ -4,15 +4,13 @@ import my.battleships.Players.ComputerPlayer;
 import my.battleships.Players.Player;
 import my.battleships.ships.ShipTypes;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Scanner;
 
 public class ConsoleHelper implements Observer{
     public static final String letters = " a b c d e f g h i j";
-    private static BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+    private static Scanner scanner = new Scanner(System.in);
     private Battleships game;
 
     ConsoleHelper(Battleships game) {
@@ -24,18 +22,17 @@ public class ConsoleHelper implements Observer{
         System.out.println(message);
     }
     //write message without new line
-    public static void writeMessage(Object message) {
+    public static void writeWhiteMessage(Object message) {
         System.out.print(message);
+    }
+
+    public static void writeRedMessage(Object message) {
+        System.out.print((char) 27 + "[31m" + message + (char)27 + "[0m");
     }
 
     public static String readString() {
         String readString = null;
-        try {
-            readString = bufferedReader.readLine();
-        } catch (IOException e) {
-            writeMessageNL("FATAL ERROR " + Thread.currentThread().getName() + " : " + e.getMessage());
-            e.printStackTrace();
-        }
+            readString = scanner.nextLine();
         return readString;
     }
 
@@ -46,9 +43,9 @@ public class ConsoleHelper implements Observer{
         writeMessageNL("\n\n  " + letters + "           " + letters);
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 20; j++) {
-                writeMessage(' ');
-                if(j == 10) writeMessage("         ");
-                if(j==0 || j == 10) writeMessage(i + " ");
+                writeWhiteMessage(' ');
+                if(j == 10) writeWhiteMessage("         ");
+                if(j==0 || j == 10) writeWhiteMessage(i + " ");
                 if(j < 10) game.getHumanPlayer().getGameField().getFieldCell(i, j).print();
                 else game.getComputerPlayer().getGameField().getFieldCell(i, j-10).print();
             }

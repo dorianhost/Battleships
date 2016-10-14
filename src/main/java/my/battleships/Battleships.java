@@ -1,6 +1,7 @@
 package my.battleships;
 
 import my.battleships.Players.*;
+import my.battleships.enums.FiringResult;
 
 public class Battleships {
 

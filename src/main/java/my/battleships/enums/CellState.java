@@ -1,6 +1,6 @@
-package my.battleships.GameField;
+package my.battleships.enums;
 
-public enum CellForm {
+public enum CellState {
     EMPTY ('.'),
     MISSED ('O'),
     DECK ('S'),
@@ -9,7 +9,7 @@ public enum CellForm {
 
     Character form;
 
-    CellForm(Character form) {
+    CellState(Character form) {
         this.form = form;
     }
 
