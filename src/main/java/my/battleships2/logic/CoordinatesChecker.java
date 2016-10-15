@@ -1,15 +1,19 @@
 package my.battleships2.logic;
 
+import my.battleships2.tools.ConsoleHelper;
 import my.battleships2.tools.Coordinates;
 
 public class CoordinatesChecker {
 
-    public static Coordinates coordinatesParser(String stringCoordinates){
-        if (stringCoordinates.equals("cheats")) return new Coordinates(114, 117, false);
+    public static Coordinates coordinatesParser(String stringCoordinates) {
+        if (stringCoordinates.equals("cheats")) {
+            ConsoleHelper.cheatsOnOff = !ConsoleHelper.cheatsOnOff;
+            return null;
+        }
         if (!stringCoordinates.matches(("(^[a-j]\\d$)|(^[a-j]\\d[v]$)"))) return null;
         int x = (int)stringCoordinates.charAt(0) - 97;
         int y = Character.getNumericValue(stringCoordinates.charAt(1));
-        return stringCoordinates.length() == 2? new Coordinates(x, y) : new Coordinates(x, y, false);
+        return new Coordinates(x, y);
     }
 
     public static boolean checkOutOfRange(Coordinates coordinates){

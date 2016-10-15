@@ -1,5 +1,6 @@
 package my.battleships2;
 
+import my.battleships2.enums.ConsoleHeaders;
 import my.battleships2.tools.ConsoleHelper;
 import my.battleships2.logic.GameManager;
 import my.battleships2.players.ComputerPlayer;
@@ -16,6 +17,7 @@ public class Battleships {
 
     public static void main(String[] args) {
         Battleships game = new Battleships();
+        System.out.println(ConsoleHeaders.WELCOME);
         Player winner = GameManager.runGame(game.humanPlayer, game.computerPlayer);
         ConsoleHelper.winMessage(winner);
     }

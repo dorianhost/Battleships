@@ -3,18 +3,10 @@ package my.battleships2.tools;
 public class Coordinates {
     private int x;
     private int y;
-    private boolean isHorizontal;
 
     public Coordinates(int x, int y){
         this.x = x;
         this.y = y;
-        isHorizontal = true;
-    }
-
-    public Coordinates(int x, int y, boolean isHorizontal){
-        this.x = x;
-        this.y = y;
-        this.isHorizontal = isHorizontal;
     }
 
     //this needs for setup new ships with horizontal and vertical direction
@@ -34,10 +26,6 @@ public class Coordinates {
 
     public int getY() {
         return y;
-    }
-
-    public boolean isHorizontal() {
-        return isHorizontal;
     }
 
     @Override

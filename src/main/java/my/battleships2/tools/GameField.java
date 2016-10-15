@@ -3,6 +3,7 @@ package my.battleships2.tools;
 import my.battleships2.enums.CellState;
 import my.battleships2.enums.ShipTypes;
 import my.battleships2.logic.CoordinatesChecker;
+import org.omg.CORBA.PUBLIC_MEMBER;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,13 +28,13 @@ public class GameField {
             for (Deck currentDeck : shipForAdd.getShipDecks()) {
                 int currentDecksX = currentDeck.getCoordinates().getX();
                 int currentDecksY = currentDeck.getCoordinates().getY();
-                field[currentDecksX][currentDecksY] = currentDeck;
+                field[currentDecksY][currentDecksX] = currentDeck;
                 for (int i = -1; i <2 ; i++) {
                     for (int j = -1; j <2 ; j++) {
-                        if (!CoordinatesChecker.checkOutOfRange(currentDecksX + i, currentDecksY + j)
-                                && field[currentDecksX + i][currentDecksY + j].getState() == CellState.EMPTY){
-                            field[currentDecksX + i][currentDecksY + j].setState(CellState.NEAR_SHIP);
-                            if (currentDeck.isHide()) field[currentDecksX + i][currentDecksY + j].changeHide();
+                        if (!CoordinatesChecker.checkOutOfRange(currentDecksY + i, currentDecksX + j)
+                                && field[currentDecksY + i][currentDecksX + j].getState() == CellState.EMPTY){
+                            field[currentDecksY + i][currentDecksX + j].setState(CellState.NEAR_SHIP);
+                            if (currentDeck.isHide()) field[currentDecksY + i][currentDecksX + j].changeHide();
                         }
 
                     }
@@ -45,6 +46,10 @@ public class GameField {
         return false;
     }
 
+    public List<Ship> getShips() {
+        return ships;
+    }
+
     public Cell getCell (Coordinates coordinates){
         return getCell(coordinates.getY(), coordinates.getX());
     }
@@ -52,6 +57,18 @@ public class GameField {
     public Cell getCell(int x, int y){
         return field[x][y];
 
+    }
+    public boolean isRightShotTarget(Coordinates coordinates){
+        switch (field[coordinates.getY()][coordinates.getX()].getState()){
+            case MISSED:
+            case DAMAGED: return false;
+            default: return true;
+        }
+    }
+
+    public boolean isRightMineSacrifice(Coordinates coordinates){
+        if(field[coordinates.getY()][coordinates.getX()].state == CellState.DECK) return true;
+        else return false;
     }
 
     public int shipsCount (){
@@ -66,17 +83,17 @@ public class GameField {
         countAliveShips--;
     }
 
-    public void cheatsOnOff(){
-        for (int i = 0; i <field.length ; i++) {
-            for (int j = 0; j <field.length ; j++) {
-                field[i][j].changeHide();
+    public void openSpaceAroundShip(Deck deck){
+        for(Deck currentDeck : deck.getParentShip().getShipDecks()){
+            for (int i = -1; i < 2 ; i++) {
+                for (int j = -1; j < 2 ; j++) {
+                    int x = currentDeck.getCoordinates().getX() + j;
+                    int y = currentDeck.getCoordinates().getY() + i;
+                    if(!CoordinatesChecker.checkOutOfRange(x, y) && field[y][x].isHide()) field[y][x].changeHide();
+                }
             }
-
         }
-
-
     }
-
     private boolean isRightPlace(Ship checkedShip) {
         for (Deck currentDeck: checkedShip.getShipDecks())
             if (CoordinatesChecker.checkOutOfRange(currentDeck.getCoordinates())
@@ -89,9 +106,9 @@ public class GameField {
         int currentDecksY = currentDeck.getCoordinates().getY();
         for (int i = -1; i <2 ; i++) {
             for (int j = -1; j <2 ; j++) {
-                if (CoordinatesChecker.checkOutOfRange(currentDecksX + i, currentDecksY + j)) continue;
-                if(field[currentDecksX + i][currentDecksY + j].getState() == CellState.DECK
-                        || field[currentDecksX + i][currentDecksY + j].getState() == CellState.MINE)
+                if (CoordinatesChecker.checkOutOfRange(currentDecksY + i, currentDecksX + j)) continue;
+                if(field[currentDecksY + i][currentDecksX + j].getState() == CellState.DECK
+                        || field[currentDecksY + i][currentDecksX + j].getState() == CellState.MINE)
                     return true;
             }
         }

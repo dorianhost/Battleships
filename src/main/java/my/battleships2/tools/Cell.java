@@ -28,7 +28,7 @@ public class Cell {
 
     @Override
     public String toString() {
-        if (hide) return CellState.EMPTY.toString();
+        if (hide&&(state == CellState.DECK || state==CellState.MINE || state ==CellState.NEAR_SHIP)) return CellState.EMPTY.toString();
         return state.toString();
     }
 }

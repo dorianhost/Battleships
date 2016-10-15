@@ -2,10 +2,10 @@ package my.battleships2.enums;
 
 public enum FiringResult {
     MISS("MISS"),
-    HURT ("you HURT the ship!"),
-    DROWNED("enemy's ship was DROWNED..."),
-    MINE(" have struck the MINE!"),
-    MINE_SACRIFICE(" exploded on the enemy's mine... RIP, dear :(");
+    HURT ("you HURT the ship"),
+    DROWNED("enemy's ship was DROWNED"),
+    MINE(" have struck the MINE"),
+    MINE_SACRIFICE(" EXPLODED on the enemy's mine");
 
     String status;
 

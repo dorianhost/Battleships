@@ -6,7 +6,7 @@
 
     <groupId>my.battleships</groupId>
     <artifactId>Battleships</artifactId>
-    <version>v0.6.2-SNAPSHOT</version>
+    <version>v0.6.5-SNAPSHOT</version>
     <build>
         <plugins>
             <plugin>
