@@ -2,12 +2,14 @@ package my.battleships.enums;
 
 public enum FiringResult {
     MISS("MISS"),
-    HURT ("you HURT the ship!"),
-    DROWNED("enemy's ship was DROWNED..."),
-    MINE(" have struck the MINE!"),
-    MINE_SACRIFICE(" exploded on the enemy's mine... RIP, dear :(");
+    HURT (" ship was HURT"),
+    DROWNED(" ship was DROWNED"),
+    MINE(" explosion!"),
+    MINE_SACRIFICE_HURT(" HURT on the enemy's mine"),
+    MINE_SACRIFICE_DROWN(" DROWNED on the enemy's mine");
 
     String status;
+
 
     FiringResult(String status) {
         this.status = status;

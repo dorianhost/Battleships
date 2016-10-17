@@ -1,12 +1,12 @@
-package my.battleships.ships;
+package my.battleships.enums;
 
 
 public enum ShipTypes {
-    FOUR_DECKER(4, 1, "four-decker ship"),
-    THREE_DECKER(3, 2, "three-decker ship"),
-    TWO_DECKER(2, 3, "two-decker ship"),
-    SINGLE_DECKER(1, 4, "single-decker ship"),
-    MINE(1, 2, "mine");
+    FOUR_DECKER(4, 1, "four-decker"),
+    THREE_DECKER(3, 2, "three-decker"),
+    TWO_DECKER(2, 3, "two-decker"),
+    SINGLE_DECKER(1, 4, "single-decker"),
+    MINE(1, 2, "MINE");
 
     private int decks;
     private int count;
@@ -26,7 +26,8 @@ public enum ShipTypes {
         return count;
     }
 
-    public String getName() {
+    @Override
+    public String toString() {
         return name;
     }
 }

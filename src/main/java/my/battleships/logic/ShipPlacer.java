@@ -1,26 +1,25 @@
-package my.battleships2.logic;
+package my.battleships.logic;
 
-import my.battleships2.enums.ShipTypes;
-import my.battleships2.players.ComputerPlayer;
-import my.battleships2.players.Player;
-import my.battleships2.tools.Coordinates;
-import my.battleships2.tools.GameField;
-import my.battleships2.tools.Ship;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import my.battleships.Exeptions.ExitGameException;
+import my.battleships.Exeptions.LoadGameException;
+import my.battleships.Exeptions.MainMenuException;
+import my.battleships.enums.ShipTypes;
+import my.battleships.players.ComputerPlayer;
+import my.battleships.players.Player;
+import my.battleships.tools.Coordinates;
+import my.battleships.tools.GameField;
+import my.battleships.tools.Ship;
 
 public class ShipPlacer {
 
-    private static final Logger logger = LogManager.getLogger(ShipPlacer.class);
-
-    public static void placeOwnShips(Player player, boolean hide){
+    public static void placeOwnShips(Player player, boolean hide) throws LoadGameException, ExitGameException, MainMenuException {
         placeAnotherShips(player, player.getGameField(), hide);
     }
 
-    public static void placeAnotherShips(Player placer, GameField gameField, boolean isHide){
+    public static void placeAnotherShips(Player placer, GameField gameField, boolean isHide) throws ExitGameException, LoadGameException, MainMenuException {
         boolean showMessages = !(placer instanceof ComputerPlayer);
         for (ShipTypes currentType : ShipTypes.values()) {
-            int shipsCountBeforeAdding = gameField.shipsCount();
+            int shipsCountBeforeAdding = gameField.getShipsCount();
             do {
                 PlacingInfo shipCoord  = placer.chooseShipPlaceCoordinates(currentType);
                 boolean successPlacing = false;
@@ -34,9 +33,9 @@ public class ShipPlacer {
                     default:
                         successPlacing = gameField.addShip(new Ship(currentType, shipCoord.coordinates, false, isHide));
                 }
-                if (!successPlacing && showMessages) logger.info("!!!Wrong setup place!!!!");
+                if (!successPlacing && showMessages) System.out.println("!!!Wrong setup place!!!!");
             }
-            while (gameField.shipsCount() < shipsCountBeforeAdding + currentType.getCount());
+            while (gameField.getShipsCount() < shipsCountBeforeAdding + currentType.getCount());
         }
     }
 

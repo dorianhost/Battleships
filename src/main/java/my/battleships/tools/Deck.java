@@ -1,8 +1,8 @@
-package my.battleships2.tools;
+package my.battleships.tools;
 
 
-import my.battleships2.enums.ShipTypes;
-import my.battleships2.enums.CellState;
+import my.battleships.enums.ShipTypes;
+import my.battleships.enums.CellState;
 
 public class Deck extends Cell{
     private final Ship parentShip;

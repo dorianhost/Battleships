@@ -1,6 +1,8 @@
-package my.battleships2.tools;
+package my.battleships.tools;
 
-public class Coordinates {
+import java.io.Serializable;
+
+public class Coordinates implements Serializable{
     private int x;
     private int y;
 

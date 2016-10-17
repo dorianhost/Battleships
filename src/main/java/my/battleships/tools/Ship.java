@@ -1,12 +1,13 @@
-package my.battleships2.tools;
+package my.battleships.tools;
 
-import my.battleships2.enums.CellState;
-import my.battleships2.enums.ShipTypes;
+import my.battleships.enums.CellState;
+import my.battleships.enums.ShipTypes;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Ship {
+public class Ship implements Serializable{
     private final ShipTypes Type;
     private final List<Deck> ShipDecks;
 

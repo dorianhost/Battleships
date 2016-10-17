@@ -1,18 +1,20 @@
-package my.battleships2.players;
+package my.battleships.players;
 
-import my.battleships2.enums.ConsoleHeaders;
-import my.battleships2.enums.ShipTypes;
-import my.battleships2.logic.CoordinatesChecker;
-import my.battleships2.logic.ShipPlacer;
-import my.battleships2.tools.ConsoleHelper;
-import my.battleships2.tools.Coordinates;
-import my.battleships2.tools.GameField;
+import my.battleships.Exeptions.ExitGameException;
+import my.battleships.Exeptions.LoadGameException;
+import my.battleships.Exeptions.MainMenuException;
+import my.battleships.enums.ConsoleHeaders;
+import my.battleships.enums.ShipTypes;
+import my.battleships.logic.CoordinatesChecker;
+import my.battleships.logic.ShipPlacer;
+import my.battleships.tools.ConsoleHelper;
+import my.battleships.tools.Coordinates;
+import my.battleships.tools.GameField;
+
+import java.io.Serializable;
 
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
-public class Player {
+public class Player implements Serializable{
     private String name;
     protected final GameField gameField;
 
@@ -29,8 +31,8 @@ public class Player {
         return gameField;
     }
 
-    public ShipPlacer.PlacingInfo chooseShipPlaceCoordinates(ShipTypes shipType){
-        System.out.println(ConsoleHeaders.PLACING_SHIPS);
+    public ShipPlacer.PlacingInfo chooseShipPlaceCoordinates(ShipTypes shipType) throws LoadGameException, ExitGameException, MainMenuException {
+        System.out.println("" + ConsoleHeaders.LINE + ConsoleHeaders.PLACING_SHIPS + ConsoleHeaders.LINE);
         ConsoleHelper.pritnGameField(gameField);
         Coordinates coordinates = null;
         String buffer = null;
@@ -44,7 +46,7 @@ public class Player {
         return new ShipPlacer.PlacingInfo(coordinates, buffer.length() == 2);
     }
 
-    public Coordinates chooseShotCoordinates(){
+    public Coordinates chooseShotCoordinates() throws LoadGameException, ExitGameException, MainMenuException {
         Coordinates coordinates = null;
         do{
             System.out.println("Choose your target!");
@@ -56,7 +58,7 @@ public class Player {
         return coordinates;
     }
 
-    public Coordinates chooseMineSacrifice(){
+    public Coordinates chooseMineSacrifice() throws LoadGameException, ExitGameException, MainMenuException {
         Coordinates coordinates = null;
         do{
             System.out.println("Choose ship or ship's deck which struck the mine:");

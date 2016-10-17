@@ -1,8 +1,10 @@
-package my.battleships2.tools;
+package my.battleships.tools;
 
-import my.battleships2.enums.CellState;
+import my.battleships.enums.CellState;
 
-public class Cell {
+import java.io.Serializable;
+
+public class Cell implements Serializable{
     protected CellState state;
     protected boolean hide;
 
@@ -28,7 +30,7 @@ public class Cell {
 
     @Override
     public String toString() {
-        if (hide&&(state == CellState.DECK || state==CellState.MINE || state ==CellState.NEAR_SHIP)) return CellState.EMPTY.toString();
-        return state.toString();
+        if (hide&&(state == CellState.DECK || state==CellState.MINE || state==CellState.NEAR_SHIP)) return CellState.EMPTY.toString();
+        else return state.toString();
     }
 }
