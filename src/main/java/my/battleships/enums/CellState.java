@@ -8,7 +8,7 @@ public enum CellState {
 //    MINE ((char) 27 + "[33mM" +(char)27 + "[0m"),
 //    DAMAGED((char) 27 + "[31mX" +(char)27 + "[0m");
     EMPTY ("."),
-    NEAR_SHIP("*"),
+    NEAR_SHIP(" "),
     MISSED ("O"),
     DECK ("S"),
     MINE ("M"),

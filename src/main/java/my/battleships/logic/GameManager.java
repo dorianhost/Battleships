@@ -35,7 +35,7 @@ public class GameManager {
             try{
                 if (playersChoice == 0) {
                     ConsoleHelper.printWellcomeMEssage();
-                    playersChoice = Menu.MainMenu();
+                    playersChoice = MenuManager.MainMenu();
                 }
                 switch (playersChoice){
                     case 4: return null;
@@ -107,9 +107,9 @@ public class GameManager {
                 }
                 if (playersShootInfo == null) continue;
                 if(playersShootInfo.getFiringResult() == FiringResult.DROWNED
-                        || playersShootInfo.getFiringResult() == FiringResult.HURT){
+                        || playersShootInfo.getFiringResult() == FiringResult.DAMAGE){
                     ConsoleHelper.printGame(humanPlayer, computerPlayer, ConsoleHeaders.SHOOTING);
-                    System.out.println(humanPlayer.getName() +": " + playersShootInfo + ", shot again");
+                    System.out.println(humanPlayer.getName() +": " + playersShootInfo + ", shoot again");
                 }
                 else if (playersShootInfo.getFiringResult() == FiringResult.MINE){
                     ConsoleHelper.printGame(humanPlayer, computerPlayer, ConsoleHeaders.SHOOTING);
@@ -118,12 +118,15 @@ public class GameManager {
                     ((ComputerPlayer)computerPlayer).sayResult(playersShootInfo);
                 }
             }while (playersShootInfo.getFiringResult() == FiringResult.DROWNED
-                    || playersShootInfo.getFiringResult() == FiringResult.HURT);
+                    || playersShootInfo.getFiringResult() == FiringResult.DAMAGE);
 
             do {
                 if (isWinner) break;
                 computersShootInfo = Shooter.makeShot(computerPlayer, humanPlayer.getGameField());
                 ((ComputerPlayer)computerPlayer).sayResult(computersShootInfo);
+                ConsoleHelper.printGame(humanPlayer, computerPlayer, ConsoleHeaders.SHOOTING);
+                System.out.println(computerPlayer.getName() + ": " + computersShootInfo);
+                ConsoleHelper.readString();
                 compShootsToSHow.append(computersShootInfo + "; ");
                 if (humanPlayer.getGameField().getCountAliveShips() == 0){
                     isWinner = true;
@@ -136,7 +139,7 @@ public class GameManager {
                 }
 
             } while (computersShootInfo.getFiringResult() == FiringResult.DROWNED
-                    || computersShootInfo.getFiringResult() == FiringResult.HURT);
+                    || computersShootInfo.getFiringResult() == FiringResult.DAMAGE);
 
             ConsoleHelper.printGame(humanPlayer, computerPlayer, ConsoleHeaders.SHOOTING);
             System.out.println(humanPlayer.getName() +": " + playersShootInfo);

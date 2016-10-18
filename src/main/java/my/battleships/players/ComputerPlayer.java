@@ -69,7 +69,7 @@ public class ComputerPlayer extends Player{
                 enemysField.getCell(x ,y).setState(CellState.MISSED);
                 break;
             case MINE_SACRIFICE_HURT:
-            case HURT:
+            case DAMAGE:
                 enemysField.getCell(x, y).setState(CellState.DAMAGED);
                 for(Cell currentCell : enemysField.getCellsCorners(x ,y))
                     currentCell.setState(CellState.MISSED);
@@ -135,7 +135,6 @@ public class ComputerPlayer extends Player{
             } catch (ExecutionException e) {
                 System.err.println("task interrupted");
             } catch (InterruptedException e) {
-                e.printStackTrace();
             } finally {
                 exec.shutdown();
             }
@@ -157,7 +156,9 @@ public class ComputerPlayer extends Player{
                             for (int k = 1; k < shipType.getDecks(); k++)
                                 if (!CoordinatesChecker.isCellOutOfRange(x+finalJ*k, y+finalI*k)
                                         && enemysField.getCell(x+finalJ*k, y+finalI*k).getState() == CellState.DAMAGED)
-                                    coordinatesSet.add(new Coordinates(x+finalJ*k, y+finalI*k));
+                                    synchronized (coordinatesSet) {
+                                        coordinatesSet.add(new Coordinates(x+finalJ*k, y+finalI*k));
+                                    }
                                 else return;
                         });
                     }
@@ -174,7 +175,6 @@ public class ComputerPlayer extends Player{
                 exec.shutdownNow();
             }
         }
-        if (coordinatesSet.size() != shipType.getDecks()) throw new RuntimeException();
         return coordinatesSet;
     }
 }

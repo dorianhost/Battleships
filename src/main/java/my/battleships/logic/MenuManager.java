@@ -9,7 +9,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Menu {
+public class MenuManager {
     private static Set<String> commands = new HashSet<>();
 
     static {
@@ -30,7 +30,7 @@ public class Menu {
         String[] parsing = command.toLowerCase().trim().split(" ");
         switch (parsing[0]){
             case "cheats":
-                ConsoleHelper.cheatsOnOff = !ConsoleHelper.cheatsOnOff;
+                ConsoleHelper.cheatsOnOff();
                 break;
             case "save":
                 if(parsing.length == 1) break;
@@ -54,12 +54,12 @@ public class Menu {
                            "                 2. Resume game\n"+
                            "                 3. Load save\n" +
                            "                 4. Exit\n\n" +
-                "Note: Command \"cheats\" in the game opens enemy's field\n" +
-                "Note: Command \"save <filename>\" will save game in file <filename>.bsh\n" +
-                "Note: Command \"load\" will load game from file <filename>.bsh\n" +
-                "Note: Command \"showfield\" in the game will open computer's vision\n" +
-                "Note: Command \"main\" returns in main menu\n"+
-                "Note: Command \"exit\" is exits from the game\nNow, enter 1,2,3 or 4");
+                "Note: The \"cheats\" command reveals computer's gamefield for player\n" +
+                "Note: The \"save <filename>\" saves game in file <filename>.bsh\n" +
+                "Note: The \"load\" command loads game from file <filename>.bsh\n" +
+                "Note: The \"showfield\" command reveals computer's vision of player's gamefield \n" +
+                "Note: The \"main\" command returns to main menu\n"+
+                "Note: The \"exit\" command is for exit the app\nNow, enter 1,2,3 or 4");
         boolean isCorrect = false;
         String choice = null;
         do {

@@ -15,28 +15,28 @@ public class SaveLoadManager {
 
     public static void saveIntoFile(String saveName){
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("./" + saveName + ".bsh"))){
-                oos.writeObject(new GameData(GameManager.getHumanPlayer(), GameManager.getComputerPlayer()));
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
+            oos.writeObject(new GameData(GameManager.getHumanPlayer(), GameManager.getComputerPlayer()));
+            System.out.println("Game was successfully SAVED to file " + System.getProperty("user.dir") +"\\"+ saveName + ".bsh");
+        } catch (FileNotFoundException e) {
+            System.err.println("Can't create file");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        System.out.println("Game was successfully SAVED to file " + System.getProperty("user.dir") +"\\"+ saveName + ".bsh");
     }
 
     public static List<Player> loadFromFile(String saveName){
         GameData gameData = null;
         try(ObjectInputStream is = new ObjectInputStream(new FileInputStream("./" + saveName + ".bsh"))){
             gameData = (GameData) is.readObject();
+            System.out.println("Game was successfully LOADED from file " + System.getProperty("user.dir") +"\\"+ saveName + ".bsh");
+            return gameData.getPlayers();
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            System.err.println("class error");
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }catch (IOException e) {
-            e.printStackTrace();
+            System.err.println("Can't find file" + saveName + ".bsh");
+        }catch (IOException ignored) {
         }
-        System.out.println("Game was successfully LOADED from file " + System.getProperty("user.dir") +"\\"+ saveName + ".bsh");
-        return gameData.getPlayers();
+        return null;
     }
 
     private static class GameData implements Serializable {

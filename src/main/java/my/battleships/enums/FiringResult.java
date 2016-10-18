@@ -2,7 +2,7 @@ package my.battleships.enums;
 
 public enum FiringResult {
     MISS("MISS"),
-    HURT (" ship was HURT"),
+    DAMAGE (" ship was DAMAGED"),
     DROWNED(" ship was DROWNED"),
     MINE(" explosion!"),
     MINE_SACRIFICE_HURT(" HURT on the enemy's mine"),

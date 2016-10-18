@@ -37,7 +37,7 @@ public class Shooter {
             case DECK:
                 bulletCell.setState(CellState.DAMAGED);
                 if(((Deck)bulletCell).getParentShip().isShipAlive()) {
-                    firingResult = FiringResult.HURT;
+                    firingResult = FiringResult.DAMAGE;
                     gameField.openSpaceAroundCell((Deck)bulletCell);
                 }
                 else {

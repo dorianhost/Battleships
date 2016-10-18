@@ -5,23 +5,28 @@ import my.battleships.Exeptions.LoadGameException;
 import my.battleships.Exeptions.MainMenuException;
 import my.battleships.enums.ConsoleHeaders;
 import my.battleships.enums.ShipTypes;
-import my.battleships.logic.Menu;
+import my.battleships.logic.MenuManager;
 import my.battleships.players.Player;
 
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 public class ConsoleHelper {
 
-    private static Scanner scanner = new Scanner(System.in);
-    public static boolean cheatsOnOff = false;
+    private static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+    private static boolean cheatsOnOff = false;
 
     public static String readString() throws ExitGameException, LoadGameException, MainMenuException {
         String readString = null;
-        readString = scanner.nextLine();
-        if (Menu.isSpecialCommand(readString.split(" ")[0])) {
-            Menu.commandExecutor(readString);
-
+        try {
+            readString = reader.readLine();
+        } catch (IOException ignored) {
         }
+        if (MenuManager.isSpecialCommand(readString.split(" ")[0]))
+            MenuManager.commandExecutor(readString);
         return readString;
     }
     public static void printWellcomeMEssage(){
@@ -85,5 +90,9 @@ public class ConsoleHelper {
         for (int i = 0; i <(ConsoleHeaders.LINE.toString().length()/2 - secondLine.length()/2); i++)
             System.out.print(" ");
         System.out.println("" + secondLine + ConsoleHeaders.LINE);
+    }
+
+    public static void cheatsOnOff(){
+        ConsoleHelper.cheatsOnOff = !ConsoleHelper.cheatsOnOff;
     }
 }
