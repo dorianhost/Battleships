@@ -13,7 +13,7 @@ public class Deck extends Cell{
         this.parentShip = parentShip;
         this.coordinates = coordinates;
         this.hide = hide;
-        setState(type==ShipTypes.MINE ?  CellState.MINE : CellState.DECK);
+        state = type==ShipTypes.MINE ?  CellState.MINE : CellState.DECK;
     }
 
     public Ship getParentShip() {
